@@ -29,7 +29,7 @@ function doit (area,all) {
 			var items;
 			//alert(data);
 			$.each(data, function(key, val) {
-				item = '<li id="li_' + val.id_node + '"><a id="' + val.id_node + '" onclick="doit(this.id)" oncontextmenu="doit(this.id, 1);return false;">' +val.state+val.name + '(' + val.sum + ')</a></li>';
+				item = '<li id="li_' + val.id_node + '"><a id="' + val.id_node + '" onclick="if ('+val.sum+'>0) doit(this.id)" oncontextmenu="doit(this.id, 1);return false;">' +val.state+val.name + '(' + val.sum + ')</a></li>';
 				if ($.exists('#my-new-list-'+val.parent)) {
 					$('#my-new-list-'+val.parent).append(item);
 				}
