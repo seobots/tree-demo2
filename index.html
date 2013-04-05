@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Tree Demo</title>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+
+</head>
+<body>
+	<h2>Tree Demo</h2>
+<script>
+
+
+jQuery.exists = function(selector) {
+   return ($(selector).length > 0);
+}
+		
+function doit (area,all) {
+
+	area = typeof area !== 'undefined' ? area : 'body';
+	id = area !== 'body' ? area : '0';
+	all = typeof all !== 'undefined' ? '&all=1' : '';
+		
+	if ($.exists('#my-new-list-'+area)) {
+		$('#my-new-list-'+area).remove();
+	}
+	else {
+		$.getJSON('getdata.php?id='+id+all, function(data) {
+			var items;
+			//alert(data);
+			$.each(data, function(key, val) {
+				item = '<li id="li_' + val.id_node + '"><a id="' + val.id_node + '" onclick="doit(this.id)" oncontextmenu="doit(this.id, 1);return false;">' +val.state+val.name + '(' + val.sum + ')</a></li>';
+				if ($.exists('#my-new-list-'+val.parent)) {
+					$('#my-new-list-'+val.parent).append(item);
+				}
+				else {
+					area_id = val.parent !== '0' ? '#li_'+val.parent : 'body';
+					$('<ul/>', {
+						'id': 'my-new-list-'+val.parent,
+						html: item
+					}).appendTo(area_id);
+				}
+			});
+
+		});
+	}
+
+}
+
+doit();
+</script>
+</body>
+</html>
